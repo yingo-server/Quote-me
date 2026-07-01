@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>一言 API · 文档</title>
   <style>
-    /* 严肃、简洁的文档风格 */
+    /* === 全局重置 & 基调 === */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -18,7 +18,7 @@
       min-height: 100vh;
     }
     .container {
-      max-width: 960px;
+      max-width: 1100px;
       margin: 0 auto;
       width: 100%;
       flex: 1;
@@ -49,28 +49,33 @@
       border-left: 4px solid #2d3748;
       padding-left: 0.75rem;
     }
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 1rem 0 0.5rem 0;
+      color: #2d3748;
+    }
     p { margin: 0.6rem 0; }
-    code, .code-block {
+    code, .code-inline {
       background: #edf2f7;
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
       font-size: 0.9em;
     }
-    .code-block {
-      display: block;
+    pre {
       background: #2d3748;
       color: #e2e8f0;
       padding: 1rem 1.25rem;
       border-radius: 6px;
       overflow-x: auto;
       margin: 0.8rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-all;
     }
-    .code-block code {
-      background: transparent;
-      color: inherit;
-      padding: 0;
-    }
+    pre code { background: transparent; padding: 0; color: inherit; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -108,23 +113,140 @@
       margin: 1.2rem 0;
       border-radius: 0 4px 4px 0;
     }
+
+    /* === 示例区块 === */
+    .example-block {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      padding: 1.5rem 1.8rem;
+      margin: 1.5rem 0;
+      border: 1px solid #e2e8f0;
+    }
+    .example-block h3 {
+      margin-top: 0;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.4rem;
+    }
+    .example-block .request-url {
+      background: #f7fafc;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-family: monospace;
+      margin: 0.5rem 0;
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+    .example-block .response-sample {
+      background: #f7fafc;
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      margin: 0.6rem 0;
+      border-left: 3px solid #a0aec0;
+    }
+    .example-block .response-sample pre {
+      background: transparent;
+      color: #1a202c;
+      padding: 0;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    .example-block .btn-group {
+      margin: 1rem 0 0.5rem 0;
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      padding: 0.4rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: #edf2f7;
+      color: #2d3748;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+    .btn:hover {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .btn-primary {
+      background: #2d3748;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #1a202c;
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: #cbd5e0;
+    }
+    .btn-outline:hover {
+      border-color: #a0aec0;
+      background: #f7fafc;
+    }
+    .result-area {
+      margin-top: 0.8rem;
+      padding: 0.8rem 1rem;
+      background: #f7fafc;
+      border-radius: 6px;
+      border: 1px dashed #cbd5e0;
+      min-height: 2.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      display: none; /* 默认隐藏，有结果时显示 */
+    }
+    .result-area.show {
+      display: block;
+    }
+    .result-area .loading {
+      color: #718096;
+    }
+
+    /* === 页脚 === */
     footer {
       margin-top: 3rem;
       padding-top: 1.5rem;
       border-top: 1px solid #e2e8f0;
-      font-size: 0.95rem;
-      color: #4a5568;
       text-align: center;
     }
-    footer .quote-line {
-      margin-top: 0.5rem;
-      font-style: italic;
-      color: #2d3748;
+    .footer-quote {
       background: #edf2f7;
-      padding: 0.6rem 1rem;
-      border-radius: 4px;
+      border-radius: 8px;
+      padding: 0.8rem 1.5rem;
       display: inline-block;
-      max-width: 80%;
+      max-width: 90%;
+      margin: 0.5rem auto;
+      min-height: 3rem;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      white-space: nowrap; /* 容器本身不换行，内部元素可能换行？我们使用 flex 控制 */
+      font-size: 1rem;
+    }
+    .footer-quote .quote-line {
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column; /* 如果是两行，上下排列 */
+      align-items: center;
+      width: 100%;
+    }
+    .footer-quote .quote-line .zh, .footer-quote .quote-line .en {
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis; /* 备选，但我们用缩放实现不换行 */
+    }
+    .footer-quote .quote-line .zh + .en {
+      margin-top: 0.2rem;
     }
     .footer-meta {
       display: flex;
@@ -133,117 +255,352 @@
       flex-wrap: wrap;
       margin-top: 0.5rem;
       font-size: 0.85rem;
+      color: #4a5568;
     }
-    a { color: #2d3748; text-decoration: underline; }
-    a:hover { color: #000; }
+    .footer-meta code {
+      background: #edf2f7;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    /* === 响应式 === */
+    @media (max-width: 640px) {
+      body { padding: 1rem; }
+      .example-block { padding: 1rem; }
+      .btn-group { flex-direction: column; align-items: stretch; }
+      .btn { text-align: center; }
+      .footer-quote { max-width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>一言 API <small>· 语录服务</small></h1>
-      <p style="color: #4a5568;">基于静态语料库，提供随机或指定条目的 JSON / 纯文本 接口。</p>
-    </header>
+<div class="container">
 
-    <section>
-      <h2>基础信息</h2>
-      <p><span class="badge">GET</span> <code>/api/quote</code></p>
-      <p>所有请求均支持 <strong>CORS</strong>，可跨域调用。</p>
-    </section>
+  <header>
+    <h1>一言 API <small>· 语录服务</small></h1>
+    <p style="color: #4a5568;">基于静态语料库，提供随机或指定条目的 JSON / 纯文本 接口。</p>
+  </header>
 
-    <section>
-      <h2>请求参数</h2>
-      <table>
-        <thead><tr><th>参数</th><th>说明</th><th>可选值</th><th>默认</th></tr></thead>
-        <tbody>
-          <tr><td><code>type</code></td><td>返回格式</td><td><code>json</code>, <code>text</code></td><td><code>json</code></td></tr>
-          <tr><td><code>line</code></td><td>指定行号（从 0 开始）</td><td>整数</td><td>随机</td></tr>
-          <tr><td><code>mode</code></td><td>仅 <code>type=text</code> 时生效</td><td><code>zh</code>（中文）<br><code>en</code>（英文）<br><code>both</code>（原始混合）</td><td><code>both</code></td></tr>
-        </tbody>
-      </table>
-    </section>
+  <!-- ===== 参数说明 ===== -->
+  <section>
+    <h2>请求参数</h2>
+    <table>
+      <thead><tr><th>参数</th><th>说明</th><th>可选值</th><th>默认</th></tr></thead>
+      <tbody>
+        <tr><td><code>type</code></td><td>返回格式</td><td><code>json</code>, <code>text</code></td><td><code>json</code></td></tr>
+        <tr><td><code>line</code></td><td>指定行号（从 0 开始）</td><td>整数</td><td>随机</td></tr>
+        <tr><td><code>mode</code></td><td>仅 <code>type=text</code> 时生效</td><td><code>zh</code>（中文）<br><code>en</code>（英文）<br><code>both</code>（原始混合）</td><td><code>both</code></td></tr>
+      </tbody>
+    </table>
+  </section>
 
-    <section>
-      <h2>示例请求</h2>
-      <div class="code-block"><code>GET /api/quote</code></div>
-      <p>返回 JSON（随机行）</p>
-      <div class="code-block"><code>GET /api/quote?type=text&mode=zh</code></div>
-      <p>返回纯文本（仅中文）</p>
-      <div class="code-block"><code>GET /api/quote?line=5&type=json</code></div>
-      <p>指定行号 JSON</p>
-      <div class="code-block"><code>GET /api/quote?type=text&line=42&mode=en</code></div>
-      <p>指定行号纯英文</p>
-    </section>
+  <!-- ===== 示例区域（8种情况） ===== -->
+  <section>
+    <h2>示例与交互</h2>
+    <p>点击下方按钮可实时请求，或在新窗口查看返回结果。</p>
 
-    <section>
-      <h2>JSON 响应格式</h2>
-      <div class="code-block"><code>{
+    <!-- 1. JSON 随机 -->
+    <div class="example-block" id="ex-json-random">
+      <h3>① JSON · 随机行</h3>
+      <div class="request-url">GET /api/quote?type=json</div>
+      <div class="response-sample">
+        <pre>{
   "code": 200,
   "line": 5,
-  "original": "人对人是狼。 Homo homini lupus.",
-  "zh": "人对人是狼。",
-  "en": "Homo homini lupus.",
+  "original": "生命的意义在于创造意义本身。",
+  "zh": "生命的意义在于创造意义本身。",
+  "en": "",
   "time": "2026-07-01T10:30:00Z"
-}</code></div>
-    </section>
-
-    <section>
-      <h2>错误处理</h2>
-      <ul style="margin-left: 1.5rem; color: #2d3748;">
-        <li><strong>行号越界</strong> → 400 错误，提示有效范围</li>
-        <li><strong>行号非数字</strong> → 自动降级为随机（不报错）</li>
-        <li><strong>数据文件缺失</strong> → 500 错误</li>
-        <li><strong>未知 type/mode</strong> → 使用默认值</li>
-      </ul>
-    </section>
-
-    <footer>
-      <div>
-        <span id="footerQuote" class="quote-line">⏳ 载入中...</span>
+}</pre>
       </div>
-      <div class="footer-meta">
-        <span>数据文件 <code>api/data.txt</code></span>
-        <span>·</span>
-        <span>Vercel 部署</span>
-        <span>·</span>
-        <span id="lineCount">行数：--</span>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=json">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=json">跳转请求</button>
       </div>
-    </footer>
-  </div>
+      <div class="result-area"></div>
+    </div>
 
-  <script>
-    // 页脚自动调用 API 显示一条随机语录（JSON 格式）
-    (function fetchQuote() {
+    <!-- 2. JSON 指定行号（示例 line=10） -->
+    <div class="example-block" id="ex-json-line">
+      <h3>② JSON · 指定行号（第 11 条）</h3>
+      <div class="request-url">GET /api/quote?type=json&line=10</div>
+      <div class="response-sample">
+        <pre>{
+  "code": 200,
+  "line": 10,
+  "original": "人是唯一会脸红的动物，也是唯一需要脸红的动物。 Man is the only animal that blushes. Or needs to.",
+  "zh": "人是唯一会脸红的动物，也是唯一需要脸红的动物。",
+  "en": "Man is the only animal that blushes. Or needs to.",
+  "time": "2026-07-01T10:30:00Z"
+}</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=json&line=10">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=json&line=10">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+
+    <!-- 3. 文本随机 + 仅中文 -->
+    <div class="example-block" id="ex-text-random-zh">
+      <h3>③ 纯文本 · 随机行 · 仅中文</h3>
+      <div class="request-url">GET /api/quote?type=text&mode=zh</div>
+      <div class="response-sample">
+        <pre>真正的勇气是知道生活的真相后依然热爱生活。</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=text&mode=zh">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=text&mode=zh">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+
+    <!-- 4. 文本随机 + 仅英文 -->
+    <div class="example-block" id="ex-text-random-en">
+      <h3>④ 纯文本 · 随机行 · 仅英文</h3>
+      <div class="request-url">GET /api/quote?type=text&mode=en</div>
+      <div class="response-sample">
+        <pre>No man is an island, entire of itself.</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=text&mode=en">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=text&mode=en">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+
+    <!-- 5. 文本随机 + 原始混合（默认） -->
+    <div class="example-block" id="ex-text-random-both">
+      <h3>⑤ 纯文本 · 随机行 · 原始混合</h3>
+      <div class="request-url">GET /api/quote?type=text&mode=both</div>
+      <div class="response-sample">
+        <pre>人对人是狼。 Homo homini lupus.</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=text&mode=both">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=text&mode=both">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+
+    <!-- 6. 文本指定行号 + 仅中文（line=10） -->
+    <div class="example-block" id="ex-text-line-zh">
+      <h3>⑥ 纯文本 · 指定行（第 11 条）· 仅中文</h3>
+      <div class="request-url">GET /api/quote?type=text&line=10&mode=zh</div>
+      <div class="response-sample">
+        <pre>人是唯一会脸红的动物，也是唯一需要脸红的动物。</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=text&line=10&mode=zh">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=text&line=10&mode=zh">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+
+    <!-- 7. 文本指定行号 + 仅英文（line=10） -->
+    <div class="example-block" id="ex-text-line-en">
+      <h3>⑦ 纯文本 · 指定行（第 11 条）· 仅英文</h3>
+      <div class="request-url">GET /api/quote?type=text&line=10&mode=en</div>
+      <div class="response-sample">
+        <pre>Man is the only animal that blushes. Or needs to.</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=text&line=10&mode=en">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=text&line=10&mode=en">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+
+    <!-- 8. 文本指定行号 + 原始混合（line=10） -->
+    <div class="example-block" id="ex-text-line-both">
+      <h3>⑧ 纯文本 · 指定行（第 11 条）· 原始混合</h3>
+      <div class="request-url">GET /api/quote?type=text&line=10&mode=both</div>
+      <div class="response-sample">
+        <pre>人是唯一会脸红的动物，也是唯一需要脸红的动物。 Man is the only animal that blushes. Or needs to.</pre>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary request-btn" data-url="/api/quote?type=text&line=10&mode=both">请求</button>
+        <button class="btn btn-outline jump-btn" data-url="/api/quote?type=text&line=10&mode=both">跳转请求</button>
+      </div>
+      <div class="result-area"></div>
+    </div>
+  </section>
+
+  <!-- ===== 页脚 ===== -->
+  <footer>
+    <div class="footer-quote" id="footerQuoteContainer">
+      <div class="quote-line" id="footerQuoteLine">
+        <span class="loading">⏳ 载入中...</span>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>数据文件 <code>api/data.txt</code></span>
+      <span>·</span>
+      <span>Vercel 部署</span>
+      <span>·</span>
+      <span id="lineDisplay">第 -- 条</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function() {
+    // ===== 工具：缩放不换行 =====
+    function fitTextToContainer(container, text) {
+      // container 是块级元素，我们设置其内容为 text，然后调整字号
+      container.textContent = text;
+      const maxWidth = container.clientWidth;
+      if (maxWidth === 0) return; // 隐藏时无法测量
+      let fontSize = parseFloat(window.getComputedStyle(container).fontSize) || 16;
+      let overflow = container.scrollWidth > maxWidth;
+      // 如果溢出，逐步减小字号直到不溢出或小于最小值
+      const minSize = 8;
+      while (overflow && fontSize > minSize) {
+        fontSize -= 0.5;
+        container.style.fontSize = fontSize + 'px';
+        overflow = container.scrollWidth > maxWidth;
+      }
+      // 如果内容本来就不溢出，恢复默认字号（但可能默认字号已经合适，保留）
+    }
+
+    // ===== 页脚语录获取 =====
+    function fetchFooterQuote() {
+      const quoteLine = document.getElementById('footerQuoteLine');
+      const lineDisplay = document.getElementById('lineDisplay');
+      // 显示加载状态
+      quoteLine.innerHTML = '<span class="loading">⏳ 载入中...</span>';
+      lineDisplay.textContent = '第 -- 条';
+
       fetch('/api/quote')
         .then(res => {
           if (!res.ok) throw new Error('API 响应异常');
           return res.json();
         })
         .then(data => {
-          const el = document.getElementById('footerQuote');
           if (data.code === 200) {
-            let display = data.original;
-            // 如果 original 过长，可截断（可选）
-            if (display.length > 80) display = display.slice(0, 80) + '…';
-            el.textContent = `“${display}”`;
+            // 构建显示内容
+            const hasZh = data.zh && data.zh.trim() !== '';
+            const hasEn = data.en && data.en.trim() !== '';
+            let html = '';
+            if (hasZh && hasEn) {
+              // 两种都有：两行
+              html = `<span class="zh">${data.zh}</span><span class="en">${data.en}</span>`;
+            } else if (hasZh) {
+              html = `<span class="zh">${data.zh}</span>`;
+            } else if (hasEn) {
+              html = `<span class="en">${data.en}</span>`;
+            } else {
+              html = '<span>（空内容）</span>';
+            }
+            quoteLine.innerHTML = html;
+
+            // 显示行号（第几个，从1开始）
+            const lineNum = data.line + 1;
+            lineDisplay.textContent = `第 ${lineNum} 条`;
+
+            // 缩放适应：为每个子元素单独缩放？
+            // 我们直接对 .quote-line 整体缩放，但因为它可能包含两个子元素，需要测量整体宽度。
+            // 更简单：将内容包裹在一个 span 中，测量整体宽度。
+            // 我们直接测量 .quote-line 的 scrollWidth 与 clientWidth
+            const container = quoteLine;
+            // 等待渲染完成
+            requestAnimationFrame(() => {
+              const maxW = container.clientWidth;
+              if (maxW === 0) return;
+              let fontSize = parseFloat(window.getComputedStyle(container).fontSize) || 16;
+              let overflow = container.scrollWidth > maxW;
+              const minSize = 8;
+              while (overflow && fontSize > minSize) {
+                fontSize -= 0.5;
+                container.style.fontSize = fontSize + 'px';
+                overflow = container.scrollWidth > maxW;
+              }
+              // 如果内容没有溢出，可以恢复默认字号（但默认可能正好）
+            });
           } else {
-            el.textContent = '⚠️ 未能获取语录';
-          }
-          // 显示总行数（如果有）
-          if (data.line !== undefined) {
-            // 但我们不知道总数，可以通过另一个请求？不额外请求了，只用显示行号位置
-            // 这里可以展示当前行号，但行号显示在数据里，可额外展示
+            quoteLine.innerHTML = '<span>⚠️ 未能获取语录</span>';
+            lineDisplay.textContent = '第 -- 条';
           }
         })
         .catch(err => {
-          document.getElementById('footerQuote').textContent = '❌ 连接失败，请刷新';
+          quoteLine.innerHTML = '<span>❌ 连接失败，请刷新</span>';
+          lineDisplay.textContent = '第 -- 条';
+        });
+    }
+
+    // ===== 示例区块的按钮交互 =====
+    function setupExampleBlocks() {
+      document.querySelectorAll('.example-block').forEach(block => {
+        const reqBtn = block.querySelector('.request-btn');
+        const jumpBtn = block.querySelector('.jump-btn');
+        const resultArea = block.querySelector('.result-area');
+
+        // 请求按钮
+        reqBtn.addEventListener('click', function(e) {
+          const url = this.dataset.url;
+          resultArea.classList.add('show');
+          resultArea.innerHTML = '<span class="loading">⏳ 请求中...</span>';
+
+          fetch(url)
+            .then(res => {
+              // 根据 url 判断返回类型，但更好是根据响应的 Content-Type
+              const contentType = res.headers.get('content-type');
+              if (contentType && contentType.includes('application/json')) {
+                return res.json().then(data => ({ type: 'json', data }));
+              } else {
+                return res.text().then(text => ({ type: 'text', data: text }));
+              }
+            })
+            .then(({ type, data }) => {
+              if (type === 'json') {
+                resultArea.innerHTML = JSON.stringify(data, null, 2);
+              } else {
+                resultArea.textContent = data;
+              }
+            })
+            .catch(err => {
+              resultArea.innerHTML = `❌ 请求失败：${err.message}`;
+            });
         });
 
-      // 尝试获取总行数（轻量，通过 HEAD 或自定义接口？这里简化，不额外请求）
-      // 可以静态显示行数，但用户希望动态，我们可以通过 /api/quote?line=0 获得 info?
-      // 更简单：在页面加载后发送一个 HEAD 请求或特定参数？我们可以在 API 中增加一个返回总行数的功能，但用户未要求。
-      // 作为示例，我们只显示获取到的行号。
-    })();
-  </script>
+        // 跳转按钮
+        jumpBtn.addEventListener('click', function(e) {
+          const url = this.dataset.url;
+          // 构建完整 URL（相对路径转绝对）
+          const fullUrl = window.location.origin + url;
+          window.open(fullUrl, '_blank');
+        });
+      });
+    }
+
+    // ===== 初始化 =====
+    fetchFooterQuote();
+    setupExampleBlocks();
+
+    // 当窗口大小变化时重新调整页脚语录的缩放（可选的）
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        // 简单重新获取？但为了不频繁请求，我们只重新调整现有的内容字号
+        const container = document.getElementById('footerQuoteLine');
+        if (container && container.children.length > 0) {
+          const maxW = container.clientWidth;
+          if (maxW === 0) return;
+          let fontSize = parseFloat(window.getComputedStyle(container).fontSize) || 16;
+          let overflow = container.scrollWidth > maxW;
+          const minSize = 8;
+          while (overflow && fontSize > minSize) {
+            fontSize -= 0.5;
+            container.style.fontSize = fontSize + 'px';
+            overflow = container.scrollWidth > maxW;
+          }
+        }
+      }, 300);
+    });
+  })();
+</script>
+
 </body>
 </html>
