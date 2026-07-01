@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>一言 API · 文档</title>
   <style>
-    /* === 全局重置 & 基调 === */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -76,15 +75,29 @@
       word-break: break-all;
     }
     pre code { background: transparent; padding: 0; color: inherit; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    
+    /* ===== 新增：表格滚动容器样式 ===== */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin: 1.2rem 0;
-      background: #fff;
       border-radius: 6px;
-      overflow: hidden;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
+    .table-wrap table {
+      width: 100%;
+      min-width: 500px; /* 保证内容不会被过度压缩，可根据实际调整 */
+      background: #fff;
+      border-collapse: collapse;
+      border-radius: 6px;
+      overflow: hidden; /* 保证圆角生效 */
+    }
+    /* 单元格内的 code 强制不换行 */
+    .table-wrap td code,
+    .table-wrap th code {
+      white-space: nowrap;
+    }
+    /* 原来的表格样式被上述覆盖，下面保留一些全局的表格样式 */
     th, td {
       padding: 0.75rem 1rem;
       text-align: left;
@@ -96,6 +109,7 @@
       color: #2d3748;
     }
     tr:last-child td { border-bottom: none; }
+
     .badge {
       display: inline-block;
       background: #2d3748;
@@ -200,7 +214,7 @@
       font-size: 0.9rem;
       white-space: pre-wrap;
       word-break: break-all;
-      display: none; /* 默认隐藏，有结果时显示 */
+      display: none;
     }
     .result-area.show {
       display: block;
@@ -229,21 +243,22 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      white-space: nowrap; /* 容器本身不换行，内部元素可能换行？我们使用 flex 控制 */
+      white-space: nowrap;
       font-size: 1rem;
     }
     .footer-quote .quote-line {
       white-space: nowrap;
       display: flex;
-      flex-direction: column; /* 如果是两行，上下排列 */
+      flex-direction: column;
       align-items: center;
       width: 100%;
     }
-    .footer-quote .quote-line .zh, .footer-quote .quote-line .en {
+    .footer-quote .quote-line .zh,
+    .footer-quote .quote-line .en {
       white-space: nowrap;
       max-width: 100%;
       overflow: hidden;
-      text-overflow: ellipsis; /* 备选，但我们用缩放实现不换行 */
+      text-overflow: ellipsis;
     }
     .footer-quote .quote-line .zh + .en {
       margin-top: 0.2rem;
@@ -263,7 +278,6 @@
       border-radius: 3px;
     }
 
-    /* === 响应式 === */
     @media (max-width: 640px) {
       body { padding: 1rem; }
       .example-block { padding: 1rem; }
@@ -281,20 +295,22 @@
     <p style="color: #4a5568;">基于静态语料库，提供随机或指定条目的 JSON / 纯文本 接口。</p>
   </header>
 
-  <!-- ===== 参数说明 ===== -->
+  <!-- ===== 参数说明（已包裹滚动容器） ===== -->
   <section>
     <h2>请求参数</h2>
-    <table>
-      <thead><tr><th>参数</th><th>说明</th><th>可选值</th><th>默认</th></tr></thead>
-      <tbody>
-        <tr><td><code>type</code></td><td>返回格式</td><td><code>json</code>, <code>text</code></td><td><code>json</code></td></tr>
-        <tr><td><code>line</code></td><td>指定行号（从 0 开始）</td><td>整数</td><td>随机</td></tr>
-        <tr><td><code>mode</code></td><td>仅 <code>type=text</code> 时生效</td><td><code>zh</code>（中文）<br><code>en</code>（英文）<br><code>both</code>（原始混合）</td><td><code>both</code></td></tr>
-      </tbody>
-    </table>
+    <div class="table-wrap"> <!-- 新增包裹层 -->
+      <table>
+        <thead><tr><th>参数</th><th>说明</th><th>可选值</th><th>默认</th></tr></thead>
+        <tbody>
+          <tr><td><code>type</code></td><td>返回格式</td><td><code>json</code>, <code>text</code></td><td><code>json</code></td></tr>
+          <tr><td><code>line</code></td><td>指定行号（从 0 开始）</td><td>整数</td><td>随机</td></tr>
+          <tr><td><code>mode</code></td><td>仅 <code>type=text</code> 时生效</td><td><code>zh</code>（中文）<br><code>en</code>（英文）<br><code>both</code>（原始混合）</td><td><code>both</code></td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <!-- ===== 示例区域（8种情况） ===== -->
+  <!-- ===== 示例区域（8种情况，保持不变） ===== -->
   <section>
     <h2>示例与交互</h2>
     <p>点击下方按钮可实时请求，或在新窗口查看返回结果。</p>
@@ -320,7 +336,7 @@
       <div class="result-area"></div>
     </div>
 
-    <!-- 2. JSON 指定行号（示例 line=10） -->
+    <!-- 2. JSON 指定行号 -->
     <div class="example-block" id="ex-json-line">
       <h3>② JSON · 指定行号（第 11 条）</h3>
       <div class="request-url">GET /api/quote?type=json&line=10</div>
@@ -369,7 +385,7 @@
       <div class="result-area"></div>
     </div>
 
-    <!-- 5. 文本随机 + 原始混合（默认） -->
+    <!-- 5. 文本随机 + 原始混合 -->
     <div class="example-block" id="ex-text-random-both">
       <h3>⑤ 纯文本 · 随机行 · 原始混合</h3>
       <div class="request-url">GET /api/quote?type=text&mode=both</div>
@@ -383,7 +399,7 @@
       <div class="result-area"></div>
     </div>
 
-    <!-- 6. 文本指定行号 + 仅中文（line=10） -->
+    <!-- 6. 文本指定行 + 仅中文 -->
     <div class="example-block" id="ex-text-line-zh">
       <h3>⑥ 纯文本 · 指定行（第 11 条）· 仅中文</h3>
       <div class="request-url">GET /api/quote?type=text&line=10&mode=zh</div>
@@ -397,7 +413,7 @@
       <div class="result-area"></div>
     </div>
 
-    <!-- 7. 文本指定行号 + 仅英文（line=10） -->
+    <!-- 7. 文本指定行 + 仅英文 -->
     <div class="example-block" id="ex-text-line-en">
       <h3>⑦ 纯文本 · 指定行（第 11 条）· 仅英文</h3>
       <div class="request-url">GET /api/quote?type=text&line=10&mode=en</div>
@@ -411,7 +427,7 @@
       <div class="result-area"></div>
     </div>
 
-    <!-- 8. 文本指定行号 + 原始混合（line=10） -->
+    <!-- 8. 文本指定行 + 原始混合 -->
     <div class="example-block" id="ex-text-line-both">
       <h3>⑧ 纯文本 · 指定行（第 11 条）· 原始混合</h3>
       <div class="request-url">GET /api/quote?type=text&line=10&mode=both</div>
@@ -446,29 +462,10 @@
 
 <script>
   (function() {
-    // ===== 工具：缩放不换行 =====
-    function fitTextToContainer(container, text) {
-      // container 是块级元素，我们设置其内容为 text，然后调整字号
-      container.textContent = text;
-      const maxWidth = container.clientWidth;
-      if (maxWidth === 0) return; // 隐藏时无法测量
-      let fontSize = parseFloat(window.getComputedStyle(container).fontSize) || 16;
-      let overflow = container.scrollWidth > maxWidth;
-      // 如果溢出，逐步减小字号直到不溢出或小于最小值
-      const minSize = 8;
-      while (overflow && fontSize > minSize) {
-        fontSize -= 0.5;
-        container.style.fontSize = fontSize + 'px';
-        overflow = container.scrollWidth > maxWidth;
-      }
-      // 如果内容本来就不溢出，恢复默认字号（但可能默认字号已经合适，保留）
-    }
-
-    // ===== 页脚语录获取 =====
+    // ===== 页脚语录获取（同前） =====
     function fetchFooterQuote() {
       const quoteLine = document.getElementById('footerQuoteLine');
       const lineDisplay = document.getElementById('lineDisplay');
-      // 显示加载状态
       quoteLine.innerHTML = '<span class="loading">⏳ 载入中...</span>';
       lineDisplay.textContent = '第 -- 条';
 
@@ -479,12 +476,10 @@
         })
         .then(data => {
           if (data.code === 200) {
-            // 构建显示内容
             const hasZh = data.zh && data.zh.trim() !== '';
             const hasEn = data.en && data.en.trim() !== '';
             let html = '';
             if (hasZh && hasEn) {
-              // 两种都有：两行
               html = `<span class="zh">${data.zh}</span><span class="en">${data.en}</span>`;
             } else if (hasZh) {
               html = `<span class="zh">${data.zh}</span>`;
@@ -494,17 +489,11 @@
               html = '<span>（空内容）</span>';
             }
             quoteLine.innerHTML = html;
-
-            // 显示行号（第几个，从1开始）
             const lineNum = data.line + 1;
             lineDisplay.textContent = `第 ${lineNum} 条`;
 
-            // 缩放适应：为每个子元素单独缩放？
-            // 我们直接对 .quote-line 整体缩放，但因为它可能包含两个子元素，需要测量整体宽度。
-            // 更简单：将内容包裹在一个 span 中，测量整体宽度。
-            // 我们直接测量 .quote-line 的 scrollWidth 与 clientWidth
+            // 缩放适应
             const container = quoteLine;
-            // 等待渲染完成
             requestAnimationFrame(() => {
               const maxW = container.clientWidth;
               if (maxW === 0) return;
@@ -516,7 +505,6 @@
                 container.style.fontSize = fontSize + 'px';
                 overflow = container.scrollWidth > maxW;
               }
-              // 如果内容没有溢出，可以恢复默认字号（但默认可能正好）
             });
           } else {
             quoteLine.innerHTML = '<span>⚠️ 未能获取语录</span>';
@@ -529,14 +517,13 @@
         });
     }
 
-    // ===== 示例区块的按钮交互 =====
+    // ===== 示例区块按钮交互（同前） =====
     function setupExampleBlocks() {
       document.querySelectorAll('.example-block').forEach(block => {
         const reqBtn = block.querySelector('.request-btn');
         const jumpBtn = block.querySelector('.jump-btn');
         const resultArea = block.querySelector('.result-area');
 
-        // 请求按钮
         reqBtn.addEventListener('click', function(e) {
           const url = this.dataset.url;
           resultArea.classList.add('show');
@@ -544,7 +531,6 @@
 
           fetch(url)
             .then(res => {
-              // 根据 url 判断返回类型，但更好是根据响应的 Content-Type
               const contentType = res.headers.get('content-type');
               if (contentType && contentType.includes('application/json')) {
                 return res.json().then(data => ({ type: 'json', data }));
@@ -564,26 +550,20 @@
             });
         });
 
-        // 跳转按钮
         jumpBtn.addEventListener('click', function(e) {
           const url = this.dataset.url;
-          // 构建完整 URL（相对路径转绝对）
-          const fullUrl = window.location.origin + url;
-          window.open(fullUrl, '_blank');
+          window.open(window.location.origin + url, '_blank');
         });
       });
     }
 
-    // ===== 初始化 =====
     fetchFooterQuote();
     setupExampleBlocks();
 
-    // 当窗口大小变化时重新调整页脚语录的缩放（可选的）
     let resizeTimer;
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        // 简单重新获取？但为了不频繁请求，我们只重新调整现有的内容字号
         const container = document.getElementById('footerQuoteLine');
         if (container && container.children.length > 0) {
           const maxW = container.clientWidth;
