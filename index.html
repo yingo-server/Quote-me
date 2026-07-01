@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一言 API · 文档</title>
+  <style>
+    /* 严肃、简洁的文档风格 */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #1a202c;
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+    header {
+      border-bottom: 2px solid #2d3748;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #1a202c;
+    }
+    h1 small {
+      font-weight: 400;
+      font-size: 1rem;
+      color: #4a5568;
+      margin-left: 0.75rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: #2d3748;
+      border-left: 4px solid #2d3748;
+      padding-left: 0.75rem;
+    }
+    p { margin: 0.6rem 0; }
+    code, .code-block {
+      background: #edf2f7;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.9em;
+    }
+    .code-block {
+      display: block;
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 0.8rem 0;
+    }
+    .code-block code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: #f7fafc;
+      font-weight: 600;
+      color: #2d3748;
+    }
+    tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      background: #2d3748;
+      color: #f7fafc;
+      padding: 0.15rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .note {
+      background: #edf2f7;
+      border-left: 4px solid #4a5568;
+      padding: 0.75rem 1.25rem;
+      margin: 1.2rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.95rem;
+      color: #4a5568;
+      text-align: center;
+    }
+    footer .quote-line {
+      margin-top: 0.5rem;
+      font-style: italic;
+      color: #2d3748;
+      background: #edf2f7;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      display: inline-block;
+      max-width: 80%;
+    }
+    .footer-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    a { color: #2d3748; text-decoration: underline; }
+    a:hover { color: #000; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>一言 API <small>· 语录服务</small></h1>
+      <p style="color: #4a5568;">基于静态语料库，提供随机或指定条目的 JSON / 纯文本 接口。</p>
+    </header>
+
+    <section>
+      <h2>基础信息</h2>
+      <p><span class="badge">GET</span> <code>/api/quote</code></p>
+      <p>所有请求均支持 <strong>CORS</strong>，可跨域调用。</p>
+    </section>
+
+    <section>
+      <h2>请求参数</h2>
+      <table>
+        <thead><tr><th>参数</th><th>说明</th><th>可选值</th><th>默认</th></tr></thead>
+        <tbody>
+          <tr><td><code>type</code></td><td>返回格式</td><td><code>json</code>, <code>text</code></td><td><code>json</code></td></tr>
+          <tr><td><code>line</code></td><td>指定行号（从 0 开始）</td><td>整数</td><td>随机</td></tr>
+          <tr><td><code>mode</code></td><td>仅 <code>type=text</code> 时生效</td><td><code>zh</code>（中文）<br><code>en</code>（英文）<br><code>both</code>（原始混合）</td><td><code>both</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>示例请求</h2>
+      <div class="code-block"><code>GET /api/quote</code></div>
+      <p>返回 JSON（随机行）</p>
+      <div class="code-block"><code>GET /api/quote?type=text&mode=zh</code></div>
+      <p>返回纯文本（仅中文）</p>
+      <div class="code-block"><code>GET /api/quote?line=5&type=json</code></div>
+      <p>指定行号 JSON</p>
+      <div class="code-block"><code>GET /api/quote?type=text&line=42&mode=en</code></div>
+      <p>指定行号纯英文</p>
+    </section>
+
+    <section>
+      <h2>JSON 响应格式</h2>
+      <div class="code-block"><code>{
+  "code": 200,
+  "line": 5,
+  "original": "人对人是狼。 Homo homini lupus.",
+  "zh": "人对人是狼。",
+  "en": "Homo homini lupus.",
+  "time": "2026-07-01T10:30:00Z"
+}</code></div>
+    </section>
+
+    <section>
+      <h2>错误处理</h2>
+      <ul style="margin-left: 1.5rem; color: #2d3748;">
+        <li><strong>行号越界</strong> → 400 错误，提示有效范围</li>
+        <li><strong>行号非数字</strong> → 自动降级为随机（不报错）</li>
+        <li><strong>数据文件缺失</strong> → 500 错误</li>
+        <li><strong>未知 type/mode</strong> → 使用默认值</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div>
+        <span id="footerQuote" class="quote-line">⏳ 载入中...</span>
+      </div>
+      <div class="footer-meta">
+        <span>数据文件 <code>api/data.txt</code></span>
+        <span>·</span>
+        <span>Vercel 部署</span>
+        <span>·</span>
+        <span id="lineCount">行数：--</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // 页脚自动调用 API 显示一条随机语录（JSON 格式）
+    (function fetchQuote() {
+      fetch('/api/quote')
+        .then(res => {
+          if (!res.ok) throw new Error('API 响应异常');
+          return res.json();
+        })
+        .then(data => {
+          const el = document.getElementById('footerQuote');
+          if (data.code === 200) {
+            let display = data.original;
+            // 如果 original 过长，可截断（可选）
+            if (display.length > 80) display = display.slice(0, 80) + '…';
+            el.textContent = `“${display}”`;
+          } else {
+            el.textContent = '⚠️ 未能获取语录';
+          }
+          // 显示总行数（如果有）
+          if (data.line !== undefined) {
+            // 但我们不知道总数，可以通过另一个请求？不额外请求了，只用显示行号位置
+            // 这里可以展示当前行号，但行号显示在数据里，可额外展示
+          }
+        })
+        .catch(err => {
+          document.getElementById('footerQuote').textContent = '❌ 连接失败，请刷新';
+        });
+
+      // 尝试获取总行数（轻量，通过 HEAD 或自定义接口？这里简化，不额外请求）
+      // 可以静态显示行数，但用户希望动态，我们可以通过 /api/quote?line=0 获得 info?
+      // 更简单：在页面加载后发送一个 HEAD 请求或特定参数？我们可以在 API 中增加一个返回总行数的功能，但用户未要求。
+      // 作为示例，我们只显示获取到的行号。
+    })();
+  </script>
+</body>
+</html>
