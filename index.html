@@ -75,8 +75,8 @@
       word-break: break-all;
     }
     pre code { background: transparent; padding: 0; color: inherit; }
-    
-    /* ===== 新增：表格滚动容器样式 ===== */
+
+    /* 表格滚动容器 */
     .table-wrap {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -86,18 +86,16 @@
     }
     .table-wrap table {
       width: 100%;
-      min-width: 500px; /* 保证内容不会被过度压缩，可根据实际调整 */
+      min-width: 500px;
       background: #fff;
       border-collapse: collapse;
       border-radius: 6px;
-      overflow: hidden; /* 保证圆角生效 */
+      overflow: hidden;
     }
-    /* 单元格内的 code 强制不换行 */
     .table-wrap td code,
     .table-wrap th code {
       white-space: nowrap;
     }
-    /* 原来的表格样式被上述覆盖，下面保留一些全局的表格样式 */
     th, td {
       padding: 0.75rem 1rem;
       text-align: left;
@@ -128,7 +126,7 @@
       border-radius: 0 4px 4px 0;
     }
 
-    /* === 示例区块 === */
+    /* 示例区块 */
     .example-block {
       background: #fff;
       border-radius: 8px;
@@ -223,7 +221,7 @@
       color: #718096;
     }
 
-    /* === 页脚 === */
+    /* 页脚 */
     footer {
       margin-top: 3rem;
       padding-top: 1.5rem;
@@ -295,10 +293,10 @@
     <p style="color: #4a5568;">基于静态语料库，提供随机或指定条目的 JSON / 纯文本 接口。</p>
   </header>
 
-  <!-- ===== 参数说明（已包裹滚动容器） ===== -->
+  <!-- 参数表格 -->
   <section>
     <h2>请求参数</h2>
-    <div class="table-wrap"> <!-- 新增包裹层 -->
+    <div class="table-wrap">
       <table>
         <thead><tr><th>参数</th><th>说明</th><th>可选值</th><th>默认</th></tr></thead>
         <tbody>
@@ -310,14 +308,14 @@
     </div>
   </section>
 
-  <!-- ===== 示例区域（8种情况，保持不变） ===== -->
+  <!-- 示例区域（8种情况） -->
   <section>
     <h2>示例与交互</h2>
     <p>点击下方按钮可实时请求，或在新窗口查看返回结果。</p>
 
     <!-- 1. JSON 随机 -->
     <div class="example-block" id="ex-json-random">
-      <h3>① JSON · 随机行</h3>
+      <h3>1. JSON · 随机行</h3>
       <div class="request-url">GET /api/quote?type=json</div>
       <div class="response-sample">
         <pre>{
@@ -338,7 +336,7 @@
 
     <!-- 2. JSON 指定行号 -->
     <div class="example-block" id="ex-json-line">
-      <h3>② JSON · 指定行号（第 11 条）</h3>
+      <h3>2. JSON · 指定行号（第 11 条）</h3>
       <div class="request-url">GET /api/quote?type=json&line=10</div>
       <div class="response-sample">
         <pre>{
@@ -359,7 +357,7 @@
 
     <!-- 3. 文本随机 + 仅中文 -->
     <div class="example-block" id="ex-text-random-zh">
-      <h3>③ 纯文本 · 随机行 · 仅中文</h3>
+      <h3>3. 纯文本 · 随机行 · 仅中文</h3>
       <div class="request-url">GET /api/quote?type=text&mode=zh</div>
       <div class="response-sample">
         <pre>真正的勇气是知道生活的真相后依然热爱生活。</pre>
@@ -373,7 +371,7 @@
 
     <!-- 4. 文本随机 + 仅英文 -->
     <div class="example-block" id="ex-text-random-en">
-      <h3>④ 纯文本 · 随机行 · 仅英文</h3>
+      <h3>4. 纯文本 · 随机行 · 仅英文</h3>
       <div class="request-url">GET /api/quote?type=text&mode=en</div>
       <div class="response-sample">
         <pre>No man is an island, entire of itself.</pre>
@@ -387,7 +385,7 @@
 
     <!-- 5. 文本随机 + 原始混合 -->
     <div class="example-block" id="ex-text-random-both">
-      <h3>⑤ 纯文本 · 随机行 · 原始混合</h3>
+      <h3>5. 纯文本 · 随机行 · 原始混合</h3>
       <div class="request-url">GET /api/quote?type=text&mode=both</div>
       <div class="response-sample">
         <pre>人对人是狼。 Homo homini lupus.</pre>
@@ -401,7 +399,7 @@
 
     <!-- 6. 文本指定行 + 仅中文 -->
     <div class="example-block" id="ex-text-line-zh">
-      <h3>⑥ 纯文本 · 指定行（第 11 条）· 仅中文</h3>
+      <h3>6. 纯文本 · 指定行（第 11 条）· 仅中文</h3>
       <div class="request-url">GET /api/quote?type=text&line=10&mode=zh</div>
       <div class="response-sample">
         <pre>人是唯一会脸红的动物，也是唯一需要脸红的动物。</pre>
@@ -415,7 +413,7 @@
 
     <!-- 7. 文本指定行 + 仅英文 -->
     <div class="example-block" id="ex-text-line-en">
-      <h3>⑦ 纯文本 · 指定行（第 11 条）· 仅英文</h3>
+      <h3>7. 纯文本 · 指定行（第 11 条）· 仅英文</h3>
       <div class="request-url">GET /api/quote?type=text&line=10&mode=en</div>
       <div class="response-sample">
         <pre>Man is the only animal that blushes. Or needs to.</pre>
@@ -429,7 +427,7 @@
 
     <!-- 8. 文本指定行 + 原始混合 -->
     <div class="example-block" id="ex-text-line-both">
-      <h3>⑧ 纯文本 · 指定行（第 11 条）· 原始混合</h3>
+      <h3>8. 纯文本 · 指定行（第 11 条）· 原始混合</h3>
       <div class="request-url">GET /api/quote?type=text&line=10&mode=both</div>
       <div class="response-sample">
         <pre>人是唯一会脸红的动物，也是唯一需要脸红的动物。 Man is the only animal that blushes. Or needs to.</pre>
@@ -442,11 +440,11 @@
     </div>
   </section>
 
-  <!-- ===== 页脚 ===== -->
+  <!-- 页脚 -->
   <footer>
     <div class="footer-quote" id="footerQuoteContainer">
       <div class="quote-line" id="footerQuoteLine">
-        <span class="loading">⏳ 载入中...</span>
+        <span class="loading">加载中...</span>
       </div>
     </div>
     <div class="footer-meta">
@@ -462,11 +460,11 @@
 
 <script>
   (function() {
-    // ===== 页脚语录获取（同前） =====
+    // 页脚语录获取
     function fetchFooterQuote() {
       const quoteLine = document.getElementById('footerQuoteLine');
       const lineDisplay = document.getElementById('lineDisplay');
-      quoteLine.innerHTML = '<span class="loading">⏳ 载入中...</span>';
+      quoteLine.innerHTML = '<span class="loading">加载中...</span>';
       lineDisplay.textContent = '第 -- 条';
 
       fetch('/api/quote')
@@ -490,9 +488,8 @@
             }
             quoteLine.innerHTML = html;
             const lineNum = data.line + 1;
-            lineDisplay.textContent = `第 ${lineNum} 条`;
+            lineDisplay.textContent = '第 ' + lineNum + ' 条';
 
-            // 缩放适应
             const container = quoteLine;
             requestAnimationFrame(() => {
               const maxW = container.clientWidth;
@@ -507,27 +504,27 @@
               }
             });
           } else {
-            quoteLine.innerHTML = '<span>⚠️ 未能获取语录</span>';
+            quoteLine.innerHTML = '<span>未能获取语录</span>';
             lineDisplay.textContent = '第 -- 条';
           }
         })
         .catch(err => {
-          quoteLine.innerHTML = '<span>❌ 连接失败，请刷新</span>';
+          quoteLine.innerHTML = '<span>连接失败，请刷新</span>';
           lineDisplay.textContent = '第 -- 条';
         });
     }
 
-    // ===== 示例区块按钮交互（同前） =====
+    // 示例按钮交互
     function setupExampleBlocks() {
       document.querySelectorAll('.example-block').forEach(block => {
         const reqBtn = block.querySelector('.request-btn');
         const jumpBtn = block.querySelector('.jump-btn');
         const resultArea = block.querySelector('.result-area');
 
-        reqBtn.addEventListener('click', function(e) {
+        reqBtn.addEventListener('click', function() {
           const url = this.dataset.url;
           resultArea.classList.add('show');
-          resultArea.innerHTML = '<span class="loading">⏳ 请求中...</span>';
+          resultArea.innerHTML = '<span class="loading">请求中...</span>';
 
           fetch(url)
             .then(res => {
@@ -546,11 +543,11 @@
               }
             })
             .catch(err => {
-              resultArea.innerHTML = `❌ 请求失败：${err.message}`;
+              resultArea.innerHTML = '请求失败：' + err.message;
             });
         });
 
-        jumpBtn.addEventListener('click', function(e) {
+        jumpBtn.addEventListener('click', function() {
           const url = this.dataset.url;
           window.open(window.location.origin + url, '_blank');
         });
